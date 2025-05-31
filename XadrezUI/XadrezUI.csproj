@@ -1,0 +1,34 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\LogicaXadrez\LogicaXadrez.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Assets\BispoPreto.png" />
+    <Resource Include="Assets\BispoBranco.png" />
+    <Resource Include="Assets\Tabuleiro.png" />
+    <Resource Include="Assets\CursorPreto.cur" />
+    <Resource Include="Assets\CursorBranco.cur" />
+    <Resource Include="Assets\icone.ico" />
+    <Resource Include="Assets\ReiPreto.png" />
+    <Resource Include="Assets\ReiBranco.png" />
+    <Resource Include="Assets\CavaloPreto.png" />
+    <Resource Include="Assets\CavaloBranco.png" />
+    <Resource Include="Assets\PeaoPreto.png" />
+    <Resource Include="Assets\PeaoBranco.png" />
+    <Resource Include="Assets\RainhaPreta.png" />
+    <Resource Include="Assets\RainhaBranca.png" />
+    <Resource Include="Assets\TorrePreta.png" />
+    <Resource Include="Assets\TorreBranca.png" />
+  </ItemGroup>
+
+</Project>
