@@ -10,15 +10,15 @@ namespace LogicaXadrez
     {
         public abstract MovimentoTipo Tipo { get; }
 
-        public abstract Posicao PosicaoOrig { get; }
+        public abstract Posicao PosOrigem { get; }
 
-        public abstract Posicao PosicaoDest { get; }
+        public abstract Posicao PosDestino { get; }
 
         public abstract void Executar(Tabuleiro tabuleiro);
 
         public virtual bool EhLegal(Tabuleiro tabuleiro)
         {
-            Jogador jogador = tabuleiro[PosicaoOrig].Cor;
+            Jogador jogador = tabuleiro[PosOrigem].Cor;
             Tabuleiro clone = tabuleiro.Clone();
             Executar(clone);
 

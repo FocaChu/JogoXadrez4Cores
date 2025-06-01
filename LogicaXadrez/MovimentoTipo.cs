@@ -7,6 +7,6 @@
         CaslteQS,
         DoublePawn,
         EnPassant,
-        PawnPromotion
+        PromacaoPeao
     }
 }

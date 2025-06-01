@@ -120,8 +120,34 @@ namespace XadrezUI
 
             if(movimentoCache.TryGetValue(posicao, out Movimento movimento))
             {
-                RealizarMovimento(movimento);
+                if (movimento.Tipo == MovimentoTipo.PromacaoPeao)
+                {
+                    RealizarPromocao(movimento.PosOrigem, movimento.PosDestino);
+                }
+                else
+                {
+                    RealizarMovimento(movimento);
+                }
             }
+        }
+
+        private void RealizarPromocao(Posicao posOrigem, Posicao posDestino)
+        {
+            pecasImagens[posDestino.Linha, posDestino.Coluna].Source = Imagens.ObterImagem(jogoEstado.JogadorAtual,PecaTipo.Peao);
+            pecasImagens[posOrigem.Linha, posOrigem.Coluna].Source = null;
+
+            PromocaoMenu promocaoMenu = new PromocaoMenu(jogoEstado.JogadorAtual);
+
+            MenuContainer.Content = promocaoMenu;
+
+            promocaoMenu.PecaSelecionada += tipoPeca =>
+            {
+                MenuContainer.Content = null; // Limpa o menu de promoção
+
+                Movimento promocao = new PromocaoPeao(posOrigem, posDestino, tipoPeca);
+
+                RealizarMovimento(promocao);
+            };
         }
 
         private void RealizarMovimento(Movimento movimento)
@@ -144,7 +170,7 @@ namespace XadrezUI
 
             foreach(Movimento mov in movimentos)
             {
-                movimentoCache[mov.PosicaoDest] = mov;
+                movimentoCache[mov.PosDestino] = mov;
             }
         }
 
@@ -180,19 +206,19 @@ namespace XadrezUI
 
         private bool MenuEstaNaTela()
         {
-            return FimDeJogoMenuContainer.Content != null;
+            return MenuContainer.Content != null;
         }
 
         private void MostrarFimDeJogo()
         {
             FimDeJogoMenu fimDeJogoMenu = new FimDeJogoMenu(jogoEstado);
-            FimDeJogoMenuContainer.Content = fimDeJogoMenu;
+            MenuContainer.Content = fimDeJogoMenu;
 
             fimDeJogoMenu.OpcaoSelecionada += opcao =>
             {
                 if(opcao == Opcao.Reiniciar)
                 {
-                    FimDeJogoMenuContainer.Content = null;
+                    MenuContainer.Content = null;
 
                     ReiniciarJogo();
                 }

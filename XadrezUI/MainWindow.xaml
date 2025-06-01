@@ -30,7 +30,7 @@
                          RenderOptions.BitmapScalingMode="HighQuality">
             </UniformGrid>
 
-            <ContentControl x:Name="FimDeJogoMenuContainer"/>
+            <ContentControl x:Name="MenuContainer"/>
 
         </Grid>
     </Viewbox>

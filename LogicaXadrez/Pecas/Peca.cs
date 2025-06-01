@@ -49,7 +49,7 @@ namespace LogicaXadrez
         {
             return ObterMovimentos(posOrigem, tabuleiro).Any(mov =>
             {
-                Peca peca = tabuleiro[mov.PosicaoDest];
+                Peca peca = tabuleiro[mov.PosDestino];
                 return peca != null && peca.Tipo == PecaTipo.Rei;
             });
         }

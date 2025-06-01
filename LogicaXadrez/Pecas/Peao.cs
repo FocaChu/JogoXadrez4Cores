@@ -55,13 +55,31 @@ namespace LogicaXadrez
             return tabuleiro[posicao].Cor != Cor;
         }
 
+        private static IEnumerable<Movimento> MovimentosPromocao(Posicao posOrigem, Posicao posDestino)
+        {
+            yield return new PromocaoPeao(posOrigem, posDestino, PecaTipo.Cavalo);
+            yield return new PromocaoPeao(posOrigem, posDestino, PecaTipo.Bispo);
+            yield return new PromocaoPeao(posOrigem, posDestino, PecaTipo.Torre);
+            yield return new PromocaoPeao(posOrigem, posDestino, PecaTipo.Rainha);
+        }
+
         private IEnumerable<Movimento> MovimentosFrente(Posicao posOrigem, Tabuleiro tabuleiro)
         {
             Posicao movUnico = posOrigem + frente;
 
             if (PodeMoverPara(movUnico, tabuleiro))
             {
-                yield return new MovimentoNormal(posOrigem, movUnico);
+                if (movUnico.Linha == 0 || movUnico.Linha == 7)
+                {
+                    foreach(Movimento movimentoPromocao in MovimentosPromocao(posOrigem, movUnico))
+                    {
+                        yield return movimentoPromocao;
+                    }
+                }
+                else
+                {
+                    yield return new MovimentoNormal(posOrigem, movUnico);
+                }
 
                 Posicao movDuplo = movUnico + frente;
 
@@ -69,6 +87,7 @@ namespace LogicaXadrez
                 {
                     yield return new MovimentoNormal(posOrigem, movDuplo);
                 }
+
             }
         }
 
@@ -80,7 +99,17 @@ namespace LogicaXadrez
 
                 if (PodeCapturar(destino, tabuleiro))
                 {
-                    yield return new MovimentoNormal(posOrigem, destino);
+                    if (destino.Linha == 0 || destino.Linha == 7)
+                    {
+                        foreach (Movimento movimentoPromocao in MovimentosPromocao(posOrigem, destino))
+                        {
+                            yield return movimentoPromocao;
+                        }
+                    }
+                    else
+                    {
+                        yield return new MovimentoNormal(posOrigem, destino);
+                    }
                 }
             }
         }
@@ -95,7 +124,7 @@ namespace LogicaXadrez
         {
             return MovimentosDiagonal(posOrigem, tabuleiro).Any(mov =>
             {
-                Peca peca = tabuleiro[mov.PosicaoDest];
+                Peca peca = tabuleiro[mov.PosDestino];
                 return peca != null && peca.Tipo == PecaTipo.Rei;
             });
         }
