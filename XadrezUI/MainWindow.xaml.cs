@@ -17,8 +17,8 @@ namespace XadrezUI
     /// </summary>
     public partial class MainWindow : Window
     {
-        private static int qtdColunasTabuleiro = 8;
-        private static int qtdLinhasTabuleiro = 8;
+        private const int qtdColunasTabuleiro = 8;
+        private const int qtdLinhasTabuleiro = 8;
 
         private readonly Image[,] pecasImagens = new Image[qtdColunasTabuleiro, qtdLinhasTabuleiro];
 
@@ -72,6 +72,11 @@ namespace XadrezUI
 
         private void TabuleiroGrid_MouseDown(object sender, MouseButtonEventArgs e)
         {
+            if(MenuEstaNaTela())
+            {
+                return; // Ignora cliques se o menu de fim de jogo estiver visível
+            }
+
             Point ponto = e.GetPosition(TabuleiroGrid);
             Posicao posicao = ParaPosicaoQuadrado(ponto);
 
@@ -121,11 +126,16 @@ namespace XadrezUI
 
         private void RealizarMovimento(Movimento movimento)
         {
-            jogoEstado.MoverPeca(movimento);
+            jogoEstado.RealizarTurno(movimento);
 
             DesenharTabuleiro(jogoEstado.Tabuleiro);
 
             DefinirCursor(jogoEstado.JogadorAtual);
+
+            if (jogoEstado.FimDeJogo())
+            {
+                MostrarFimDeJogo();
+            }
         }
 
         private void CacheMovimentos(IEnumerable<Movimento> movimentos)
@@ -166,6 +176,40 @@ namespace XadrezUI
             {
                 Cursor = CursoresXadrez.CursorPreto; // Cursor para o jogador preto
             }
+        }
+
+        private bool MenuEstaNaTela()
+        {
+            return FimDeJogoMenuContainer.Content != null;
+        }
+
+        private void MostrarFimDeJogo()
+        {
+            FimDeJogoMenu fimDeJogoMenu = new FimDeJogoMenu(jogoEstado);
+            FimDeJogoMenuContainer.Content = fimDeJogoMenu;
+
+            fimDeJogoMenu.OpcaoSelecionada += opcao =>
+            {
+                if(opcao == Opcao.Reiniciar)
+                {
+                    FimDeJogoMenuContainer.Content = null;
+
+                    ReiniciarJogo();
+                }
+                else
+                {
+                    Application.Current.Shutdown(); // Fecha o aplicativo se outra opção for selecionada
+                }
+            };
+        }
+
+        private void ReiniciarJogo()
+        {
+            EsconderDestaques();
+            movimentoCache.Clear();
+            jogoEstado = new JogoEstado(Tabuleiro.Iniciar(), Jogador.Branco);
+            DesenharTabuleiro(jogoEstado.Tabuleiro);
+            DefinirCursor(jogoEstado.JogadorAtual);
         }
     }
 }

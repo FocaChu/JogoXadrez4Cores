@@ -4,6 +4,39 @@
              xmlns:local="clr-namespace:XadrezUI"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        
+        <SolidColorBrush x:Key="CorBorda">#260000</SolidColorBrush>
+        <SolidColorBrush x:Key="CorPreenchimento">#cc380404</SolidColorBrush>
+        <SolidColorBrush x:Key="CorTexto">#ffa274</SolidColorBrush>
+        <SolidColorBrush x:Key="CorBotao">#730909</SolidColorBrush>
+
+        <Style TargetType="Border" x:Key="EstiloBorda">
+            <Setter Property="BorderThickness" Value="4"/>
+            <Setter Property="BorderBrush" Value="{StaticResource CorBorda}"/>
+            <Setter Property="Background" Value="{StaticResource CorPreenchimento}"/>
+            <Setter Property="CornerRadius" Value="10"/>
+        </Style>
+
+        <Style TargetType="TextBlock" x:Key="EstiloTexto">
+            <Setter Property="FontFamily" Value="Segoe UI Light"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Foreground" Value="{StaticResource CorTexto}"/>
+        </Style>
+
+        <Style TargetType="Button" x:Key="EstiloBotao">
+            <Setter Property="FontFamily" Value="Segoe UI Light"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="BorderBrush" Value="{StaticResource CorBorda}"/>
+            <Setter Property="Background" Value="{StaticResource CorBotao}"/>
+            <Setter Property="Foreground" Value="{StaticResource CorTexto}"/>
+            <Style.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="5"/>
+                </Style>
+            </Style.Resources>
+        </Style>
+        
     </Application.Resources>
 </Application>

@@ -15,5 +15,14 @@ namespace LogicaXadrez
         public abstract Posicao PosicaoDest { get; }
 
         public abstract void Executar(Tabuleiro tabuleiro);
+
+        public virtual bool EhLegal(Tabuleiro tabuleiro)
+        {
+            Jogador jogador = tabuleiro[PosicaoOrig].Cor;
+            Tabuleiro clone = tabuleiro.Clone();
+            Executar(clone);
+
+            return !clone.EstaEmCheck(jogador);
+        }
     }
 }

@@ -23,13 +23,15 @@
                          Columns="8">
                 
             </UniformGrid>
-            
+
             <UniformGrid x:Name="PecasGrid"
                          Rows="8"
                          Columns="8"
                          RenderOptions.BitmapScalingMode="HighQuality">
-                
             </UniformGrid>
+
+            <ContentControl x:Name="FimDeJogoMenuContainer"/>
+
         </Grid>
     </Viewbox>
 </Window>

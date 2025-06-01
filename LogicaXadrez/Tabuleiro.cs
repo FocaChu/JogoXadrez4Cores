@@ -37,8 +37,8 @@ namespace LogicaXadrez
             set { this[posicao.Linha, posicao.Coluna] = value; }
         }
 
-        public static Tabuleiro Iniciar() 
-        { 
+        public static Tabuleiro Iniciar()
+        {
             Tabuleiro tabuleiro = new Tabuleiro();
 
             tabuleiro.AdcPecasIniciais();
@@ -92,13 +92,13 @@ namespace LogicaXadrez
 
         public IEnumerable<Posicao> PosicaoPecas()
         {
-            for(int l = 0; l < 8; l++)
+            for (int l = 0; l < 8; l++)
             {
-                for(int c = 0; c < 8; c++)
+                for (int c = 0; c < 8; c++)
                 {
                     Posicao posicao = new Posicao(l, c);
 
-                    if(!EstaVazio(posicao))
+                    if (!EstaVazio(posicao))
                     {
                         yield return posicao;
                     }
@@ -109,6 +109,27 @@ namespace LogicaXadrez
         public IEnumerable<Posicao> PosicaoPecasPorCor(Jogador cor)
         {
             return PosicaoPecas().Where(posicao => this[posicao].Cor == cor);
+        }
+
+        public bool EstaEmCheck(Jogador jogador)
+        {
+            return PosicaoPecasPorCor(jogador.Oponente()).Any(posicao =>
+            {
+                Peca peca = this[posicao];
+                return peca.PodeCapturarReiAdv(posicao, this);
+            });
+        }
+
+        public Tabuleiro Clone()
+        {
+            Tabuleiro clone = new Tabuleiro();
+
+            foreach(Posicao posicao in PosicaoPecas())
+            {
+                clone[posicao] = this[posicao].Clone();
+            }
+
+            return clone;
         }
     }
 }
