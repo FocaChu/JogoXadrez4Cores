@@ -36,8 +36,9 @@ namespace LogicaXadrez
 
         public void RealizarTurno(Movimento movimento)
         {
+            Tabuleiro.DefinirPosicaoPeaoPulo(JogadorAtual, null);
             movimento.Executar(Tabuleiro);
-            JogadorAtual = JogadorAtual.Oponente(); // Alterna o jogador atual após o movimento
+            JogadorAtual = JogadorAtual.Oponente(); 
             VerificarFimDeJogo();
         }
 

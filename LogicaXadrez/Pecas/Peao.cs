@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace LogicaXadrez
+﻿namespace LogicaXadrez
 {
     public class Peao : Peca
     {
@@ -85,7 +79,7 @@ namespace LogicaXadrez
 
                 if (!SeMoveu && PodeMoverPara(movDuplo, tabuleiro))
                 {
-                    yield return new MovimentoNormal(posOrigem, movDuplo);
+                    yield return new DoublePawn(posOrigem, movDuplo);
                 }
 
             }
@@ -97,7 +91,11 @@ namespace LogicaXadrez
             {
                 Posicao destino = posOrigem + frente + dir;
 
-                if (PodeCapturar(destino, tabuleiro))
+                if (destino == tabuleiro.ObterPosicaoPeaoPulo(Cor.Oponente()))
+                {
+                    yield return new EnPassant(posOrigem, destino);
+                }
+                else if (PodeCapturar(destino, tabuleiro))
                 {
                     if (destino.Linha == 0 || destino.Linha == 7)
                     {

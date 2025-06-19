@@ -10,6 +10,12 @@ namespace LogicaXadrez
     {
         private readonly Peca[,] pecas = new Peca[8, 8];
 
+        private readonly Dictionary<Jogador, Posicao> peaoPosicaoPulo = new Dictionary<Jogador, Posicao>
+        {
+            {Jogador.Branco, null },
+            {Jogador.Preto, null },
+        };
+
         public Peca this[int linha, int coluna]
         {
             get
@@ -35,6 +41,16 @@ namespace LogicaXadrez
             get { return this[posicao.Linha, posicao.Coluna]; }
 
             set { this[posicao.Linha, posicao.Coluna] = value; }
+        }
+
+        public Posicao ObterPosicaoPeaoPulo(Jogador jogador)
+        {
+            return peaoPosicaoPulo[jogador];
+        }
+
+        public void DefinirPosicaoPeaoPulo(Jogador jogador, Posicao posicao)
+        {
+            peaoPosicaoPulo[jogador] = posicao;
         }
 
         public static Tabuleiro Iniciar()
